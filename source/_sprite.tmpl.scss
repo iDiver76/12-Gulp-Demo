@@ -7,12 +7,12 @@
 $pngsprite: (
 	{{#each sprites}}"{{name}}": (
 		"position": (
-			"x": {{x}},
-			"y": {{y}}
+			"x": -{{x}}px,
+			"y": -{{y}}px
 		),
 		"dimensions": (
-			"x": {{width}},
-			"y": {{height}}
+			"x": {{width}}px,
+			"y": {{height}}px
 		),
 		"url": "{{image}}"
 	),
@@ -44,10 +44,11 @@ $pngsprite: (
 	$dimensions: map-get($image, "dimensions");
 
 	background-image: url($url);
-	background-position: map-get($position, "x") + 0px map-get($position, "y") + 0px;
+	background-position: map-get($position, "x") map-get($position, "y");
+	background-repeat: no-repeat;
 
 	@if $skipDimensions != true {
-		height: map-get($dimensions, "y") + 0px;
-		width: map-get($dimensions, "x") + 0px;
+		height: map-get($dimensions, "y");
+		width: map-get($dimensions, "x");
 	}
 }
