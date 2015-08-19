@@ -3,7 +3,8 @@ var gulp = require('gulp'),
 	concat = require('gulp-concat'),
 	uglify = require('gulp-uglify'),
 	sass = require('gulp-sass'),
-	spritesmith = require('gulp.spritesmith');
+	spritesmith = require('gulp.spritesmith'),
+	merge = require('merge-stream');
 
 gulp.task('js', function() {
 	return gulp.src('source/*.js')
@@ -20,7 +21,7 @@ gulp.task('css', function() {
 		.pipe(gulp.dest('build/'));
 });
 
-gulp.task('sprite', function(cb) {
+gulp.task('sprite', function() {
 	var streams = gulp.src('source/media/*.png')
 			.pipe(spritesmith({
 				imgName: 'sprite.png',
@@ -34,6 +35,8 @@ gulp.task('sprite', function(cb) {
 
 	// Generate SCSS file
 	streams.css.pipe(gulp.dest('source/.tmp'));
+
+	return merge(streams.img, streams.css);
 });
 
 gulp.task('default', function() {
