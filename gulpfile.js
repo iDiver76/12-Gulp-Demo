@@ -1,5 +1,4 @@
 var gulp = require('gulp'),
-	jshint = require('gulp-jshint'),
 	concat = require('gulp-concat'),
 	uglify = require('gulp-uglify'),
 	sass = require('gulp-sass');
@@ -9,8 +8,6 @@ gulp.task('js', function() {
 			'node_modules/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js',
 			'source/*.js'
 		])
-		.pipe(jshint())
-		.pipe(jshint.reporter('default'))
 		.pipe(concat('main.js'))
 		.pipe(uglify())
 		.pipe(gulp.dest('build/'));
