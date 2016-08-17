@@ -20,11 +20,7 @@ gulp.task('js', function(cb) {
 
 		// Minifiy in prod mode
 		plugins: [].concat(util.env.dev ? [] : [
-			new webpack.optimize.UglifyJsPlugin({
-				mangle: {
-					'keep_fnames': true
-				}
-			})
+			new webpack.optimize.UglifyJsPlugin()
 		]),
 		output: {
 			path: 'build',
