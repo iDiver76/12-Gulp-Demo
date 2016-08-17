@@ -21,8 +21,8 @@ gulp.task('js', function(cb) {
 		// Minifiy in prod mode
 		plugins: [].concat(util.env.dev ? [] : [
 			new webpack.optimize.UglifyJsPlugin({
-				mangle: {
-					'keep_fnames': true
+				output: {
+					ascii_only: true
 				}
 			})
 		]),
