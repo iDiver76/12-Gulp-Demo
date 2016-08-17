@@ -26,7 +26,7 @@ gulp.task('js', function(cb) {
 			path: 'build',
 			filename: '[name].js'
 		},
-		devtool: util.env.dev ? 'eval-cheap-module-source-map' : null
+		devtool: util.env.dev ? 'inline-source-map' : null
 	}, function(err, stats) {
 		if (err) {
 			console.log(err);
