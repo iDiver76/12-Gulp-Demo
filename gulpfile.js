@@ -1,15 +1,60 @@
 var gulp = require('gulp'),
-	jshint = require('gulp-jshint'),
-	concat = require('gulp-concat'),
-	uglify = require('gulp-uglify');
+	util = require('gulp-util'),
+	webpack = require('webpack');
 
-gulp.task('js', function() {
-	return gulp.src('source/*.js')
-		.pipe(jshint())
-		.pipe(jshint.reporter('default'))
-		.pipe(concat('main.js'))
-		.pipe(uglify())
-		.pipe(gulp.dest('build/'));
+gulp.task('js', function(cb) {
+	webpack({
+		entry: './source/main.js',
+		module: {
+			loaders: [
+				{
+					test: /\.js$/,
+					exclude: /node_modules/,
+					loader: 'babel-loader',
+					query: {
+						presets: ['es2015']
+					}
+				}
+			]
+		},
+
+		// Minifiy in prod mode
+		plugins: [].concat(util.env.dev ? [] : [
+			new webpack.optimize.UglifyJsPlugin({
+				mangle: {
+					'keep_fnames': true
+				}
+			})
+		]),
+		output: {
+			path: 'build',
+			filename: '[name].js'
+		},
+		devtool: util.env.dev ? 'eval-cheap-module-source-map' : null
+	}, function(err, stats) {
+		if (err) {
+			console.log(err);
+		}
+
+		util.log(stats.toString({
+			colors: util.colors.supportsColor,
+			hash: false,
+			timings: false,
+			chunks: false,
+			chunkModules: false,
+			modules: false,
+			children: true,
+			version: true,
+			cached: false,
+			cachedAssets: false,
+			reasons: false,
+			source: false,
+			errorDetails: false,
+			assetsSort: 'name'
+		}));
+
+		cb();
+	});
 });
 
 gulp.task('default', function() {
