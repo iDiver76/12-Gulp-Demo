@@ -2,7 +2,9 @@ var gulp = require('gulp'),
 	jshint = require('gulp-jshint'),
 	concat = require('gulp-concat'),
 	uglify = require('gulp-uglify'),
-	sass = require('gulp-sass');
+	sass = require('gulp-sass'),
+	postCSS = require('gulp-postcss'),
+	autoprefixer = require('autoprefixer');
 
 gulp.task('js', function() {
 	return gulp.src('source/*.js')
@@ -16,6 +18,11 @@ gulp.task('js', function() {
 gulp.task('css', function() {
 	return gulp.src('source/*.scss')
 		.pipe(sass())
+		.pipe(postCSS([
+			autoprefixer({
+				browsers: ['last 10 versions']
+			})
+		]))
 		.pipe(gulp.dest('build/'));
 });
 
