@@ -1,17 +1,18 @@
 var gulp = require('gulp'),
 	util = require('gulp-util'),
-	webpack = require('webpack');
+	webpack = require('webpack'),
+	path = require('path');
 
 gulp.task('js', function(cb) {
 	webpack({
 		entry: './source/main.js',
 		module: {
-			loaders: [
+			rules: [
 				{
 					test: /\.js$/,
 					exclude: /node_modules/,
 					loader: 'babel-loader',
-					query: {
+					options: {
 						presets: ['es2015']
 					}
 				}
@@ -23,10 +24,10 @@ gulp.task('js', function(cb) {
 			new webpack.optimize.UglifyJsPlugin()
 		]),
 		output: {
-			path: 'build',
+			path: path.resolve(__dirname, 'build'),
 			filename: '[name].js'
 		},
-		devtool: util.env.dev ? 'inline-source-map' : null
+		devtool: util.env.dev ? 'inline-source-map' : false
 	}, function(err, stats) {
 		if (err) {
 			console.log(err);
